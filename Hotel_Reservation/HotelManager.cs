@@ -1,6 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
+
 
 namespace HotelReservationSystem
 {
@@ -10,6 +13,9 @@ namespace HotelReservationSystem
         /// List of Hotels of type Hotel
         /// </summary>
         public List<Hotel> hotelList = new List<Hotel>();
+
+        string rewardCustomerRegex = "^([Rr][Ee][Ww][Aa][Rr][Dd])$";
+        string regularCustomerRegex = "^([Rr][Ee][Gg][Uu][Ll][Aa][Rr])$";
 
         /// <summary>
         /// Manual adding of Hotels in the HotelList
@@ -21,7 +27,7 @@ namespace HotelReservationSystem
             {
                 hotelList.Add(newHotel);
             }
-            else { Console.WriteLine("Hole already exists"); }
+            else { Console.WriteLine("Hotel already exists"); }
         }
 
         /// <summary>
@@ -57,7 +63,7 @@ namespace HotelReservationSystem
         /// <param name="endDate">end date of stay</param>
         /// <param name="type">customer type</param>
         /// <returns>Dictionary containing cheapest hotel along with its price</returns>
-        public Dictionary<Hotel, int> FindCheapHotel(DateTime startDate, DateTime endDate, int type)
+        public Dictionary<Hotel, int> FindCheapHotel(DateTime startDate, DateTime endDate, string type)
         {
             var cheapestHotelList = new Dictionary<Hotel, int>();
             if (startDate > endDate)
@@ -83,6 +89,11 @@ namespace HotelReservationSystem
             return cheapestHotelList;
         }
 
+        internal Dictionary<Hotel, int> FindCheapHotel(DateTime startDate, DateTime endDate, int type)
+        {
+            throw new NotImplementedException();
+        }
+
 
         /// <summary>
         /// Method to find the cheapest hotels in the list as per the date range
@@ -92,7 +103,7 @@ namespace HotelReservationSystem
         /// <param name="endDate">end date of stay</param>
         /// <param name="type">customer type</param>
         /// <returns>Dictionary containing cheapest hotel along with its price</returns>
-        public Dictionary<Hotel, int> FindCheapestBestRatedHotel(DateTime startDate, DateTime endDate, int type)
+        public Dictionary<Hotel, int> FindCheapestBestRatedHotel(DateTime startDate, DateTime endDate, string type)
         {
             var cheapestHotelsDict = FindCheapHotel(startDate, endDate, type);
             var cheapestBestRatedHotels = new Dictionary<Hotel, int>();
@@ -105,6 +116,11 @@ namespace HotelReservationSystem
             return cheapestBestRatedHotels;
         }
 
+        internal Dictionary<Hotel, int> FindCheapestBestRatedHotel(DateTime startDate, DateTime endDate, int type)
+        {
+            throw new NotImplementedException();
+        }
+
 
         /// <summary>
         /// Method to calculate the total cost of stay
@@ -114,12 +130,12 @@ namespace HotelReservationSystem
         /// <param name="endDate">end date of stay</param>
         /// <param name="type">Customer Type</param>
         /// <returns>Total Cost incurred</returns>
-        public int TotalCostCalculation(Hotel hotel, DateTime startDate, DateTime endDate, int type)
+        public int TotalCostCalculation(Hotel hotel, DateTime startDate, DateTime endDate, string type)
         {
             var totalCost = 0;
             var weekdayRate = hotel.weekdayRate;
             var weekendRate = hotel.weekendRate;
-            if (type == 1)
+            if (Regex.IsMatch(rewardCustomerRegex, type))
             {
                 weekdayRate = hotel.weekdayLoyaltyRate;
                 weekendRate = hotel.weekendLoyaltyRate;
@@ -147,6 +163,16 @@ namespace HotelReservationSystem
                 ratingList.Add(hotel.rating);
             }
             return ratingList;
+        }
+
+        /// <summary>
+        /// Validates the Customer Type for Regular or Reward
+        /// </summary>
+        /// <param name="customerType">Customer Type entered by user</param>
+        /// <returns>True or False for Valid Customer Type</returns>
+        public bool ValidateCustomerType(string customerType)
+        {
+            return (Regex.IsMatch(customerType, rewardCustomerRegex) || Regex.IsMatch(customerType, regularCustomerRegex));
         }
     }
 }
