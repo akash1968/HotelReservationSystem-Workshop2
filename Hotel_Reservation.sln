@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel_Reservation", "Hotel_Reservation\Hotel_Reservation.csproj", "{A89BACC7-2F92-4B7E-9E83-B24F1F494F59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelReservationSystem", "Hotel_Reservation\HotelReservationSystem.csproj", "{A89BACC7-2F92-4B7E-9E83-B24F1F494F59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTestHotelManagement", "NUnitTestHotelManagement\NUnitTestHotelManagement.csproj", "{D26A5796-92C3-407D-B55A-A0CDC6E77784}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnitTestHotelManagement", "NUnitTestHotelManagement\NUnitTestHotelManagement.csproj", "{D26A5796-92C3-407D-B55A-A0CDC6E77784}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

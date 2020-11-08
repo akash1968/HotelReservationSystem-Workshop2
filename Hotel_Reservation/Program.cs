@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace HotelReservationSystem
 {
@@ -17,9 +18,9 @@ namespace HotelReservationSystem
                 {
                     case 1:
                         {
-                            manager.AddHotel(new Hotel("Bridgewood", 160, 100));
-                            manager.AddHotel(new Hotel("Ridgewood", 220, 180));
-                            manager.AddHotel(new Hotel("Lakewood", 110, 80));
+                            manager.AddHotel(new Hotel("Bridgewood", 150, 50));
+                            manager.AddHotel(new Hotel("Ridgewood", 220, 150));
+                            manager.AddHotel(new Hotel("Lakewood", 110, 90));
                             break;
                         }
 
@@ -41,8 +42,11 @@ namespace HotelReservationSystem
                             DateTime startDate = Convert.ToDateTime(Console.ReadLine());
                             Console.WriteLine("Enter the endDate");
                             DateTime endDate = Convert.ToDateTime(Console.ReadLine());
-                            Hotel cheapHotel = manager.FindCheapHotel(startDate, endDate);
-                            Console.WriteLine("Cheapest Hotel will be: " + cheapHotel.hotelName + "\n");
+                            Dictionary<Hotel, int> cheapHotelList = manager.FindCheapHotel(startDate, endDate);
+                            foreach (var kvp in cheapHotelList)
+                            {
+                                Console.WriteLine("Cheapest Hotel will be: " + kvp.Key.hotelName + " with price $" + kvp.Value);
+                            }
                             break;
                         }
 
