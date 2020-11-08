@@ -1,8 +1,9 @@
 using NUnit.Framework;
 using HotelReservationSystem;
 using System;
+using System.Collections.Generic;
 
-namespace NUnitTestHotelManagement
+namespace TestProjectHRS
 {
     public class Tests
     {
@@ -24,15 +25,53 @@ namespace NUnitTestHotelManagement
 
         }
 
+        /// <summary>
+        /// Test case to check for correct output list of cheap hotels for weekdays
+        /// date range includes only weekdays
+        /// </summary>
         [Test]
-        public void GivenStartandEndDates_ShouldReturn_CheapestHotel()
+        public void GivenStartandEndDates_ShouldReturn_CheapestHotelForWeekdays()
         {
             HotelManager manager = new HotelManager();
-            DateTime startDate = new DateTime(2020, 08, 12);
-            DateTime endDate = new DateTime(2020, 08, 20);
-            Hotel cheapHotel = manager.FindCheapHotel(startDate, endDate);
-            Assert.AreEqual("Lakewood", cheapHotel.hotelName);
+            manager.CreateHotelList();
+
+            DateTime startDate = Convert.ToDateTime("10Sep2020");
+            DateTime endDate = Convert.ToDateTime("11Sep2020");
+
+            Dictionary<Hotel, int> actualCheapHotelList = new Dictionary<Hotel, int>();
+            actualCheapHotelList = manager.FindCheapHotel(startDate, endDate);
+
+            Dictionary<Hotel, int> expectedCheapHotelList = new Dictionary<Hotel, int>();
+            expectedCheapHotelList.Add(new Hotel("Lakewood", 110, 90), 220);
+
+            CollectionAssert.AreEqual(expectedCheapHotelList, actualCheapHotelList);
         }
+
+        /// <summary>
+        /// Test case to check for correct output list of cheap hotels for weekdays & weekends
+        /// date range includes both weekdays and weekends
+        /// </summary>
+        [Test]
+        public void GivenStartandEndDates_ShouldReturn_CheapestHotelForWeekendandWeekdays()
+        {
+            HotelManager manager = new HotelManager();
+            manager.CreateHotelList();
+
+            DateTime startDate = Convert.ToDateTime("11Sep2020");
+            DateTime endDate = Convert.ToDateTime("12Sep2020");
+
+            Dictionary<Hotel, int> actualCheapHotelList = new Dictionary<Hotel, int>();
+            actualCheapHotelList = manager.FindCheapHotel(startDate, endDate);
+
+            Dictionary<Hotel, int> expectedCheapHotelList = new Dictionary<Hotel, int>();
+            expectedCheapHotelList.Add(new Hotel("Lakewood", 110, 90), 200);
+            expectedCheapHotelList.Add(new Hotel("Bridgewood", 220, 150), 200);
+
+            Assert.AreEqual(expectedCheapHotelList, actualCheapHotelList);
+        }
+
+
+
 
 
     }

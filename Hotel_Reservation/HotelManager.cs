@@ -17,6 +17,13 @@ namespace HotelReservationSystem
             else { Console.WriteLine("Hole already exists"); }
         }
 
+        public void CreateHotelList()
+        {
+            hotelList.Add(new Hotel("Lakewood", 110, 90));
+            hotelList.Add(new Hotel("Bridgewood", 150, 50));
+            hotelList.Add(new Hotel("Ridgewood", 220, 190));
+        }
+
         public void DisplayHotels()
         {
             Console.WriteLine("Name\tWeekday Rate\tWeekend Rate");
@@ -26,9 +33,9 @@ namespace HotelReservationSystem
             }
         }
 
-        public Hotel FindCheapHotel(DateTime startDate, DateTime endDate)
+        public Dictionary<Hotel, int> FindCheapHotel(DateTime startDate, DateTime endDate)
         {
-            Hotel cheapestHotel = new Hotel();
+            var cheapestHotelList = new Dictionary<Hotel, int>();
             if (startDate > endDate)
             {
                 throw new HotelException(HotelException.ExceptionType.INVALID_DATE, "Invalid Dates");
@@ -41,12 +48,15 @@ namespace HotelReservationSystem
                 {
                     var temp = cost;
                     cost = Math.Min(cost, TotalCostCalculation(hotel, startDate, endDate));
-                    if (temp != cost)
-                        cheapestHotel = hotel;
+
                 }
-                Console.WriteLine("Cheapest Price " + cost);
+                foreach (var hotel in hotelList)
+                {
+                    if (TotalCostCalculation(hotel, startDate, endDate) == cost)
+                        cheapestHotelList.Add(hotel, cost);
+                }
             }
-            return cheapestHotel;
+            return cheapestHotelList;
         }
 
         public int TotalCostCalculation(Hotel hotel, DateTime startDate, DateTime endDate)
